@@ -16,6 +16,7 @@ import com.photogallery.amrelmasry.simplephotogallery.common.utils.StorageUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,11 +26,12 @@ public class PhotosGridAdapter extends RecyclerView.Adapter<PhotosGridAdapter.Ph
 
     private List<String> photosUrls;
     private Context mContext;
-    private int lastSavedPosition;
+    private ArrayList<Integer> savedPositions;
 
     public PhotosGridAdapter(List<String> photosUrls, Context mContext) {
         this.photosUrls = photosUrls;
         this.mContext = mContext;
+        savedPositions = new ArrayList<>();
     }
 
     @Override
@@ -49,19 +51,19 @@ public class PhotosGridAdapter extends RecyclerView.Adapter<PhotosGridAdapter.Ph
                 // TODO add fade animation
                 holder.progressBar.setVisibility(View.INVISIBLE);
                 holder.imageView.setImageBitmap(bitmap);
+
                 // check if the image with current position has been saved before
-                if (position >= lastSavedPosition) {
+                if (!savedPositions.contains(holder.getAdapterPosition())) {
                     // use the photo position as the file name to be able to retrieve them
                     // with the same positions order later
                     StorageUtils.savePhotoToInternalStorage(mContext, bitmap, String.valueOf(holder.getAdapterPosition()));
-                    lastSavedPosition = holder.getAdapterPosition();
+                    savedPositions.add(holder.getAdapterPosition());
                 }
-
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-
+                holder.progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -92,7 +94,8 @@ public class PhotosGridAdapter extends RecyclerView.Adapter<PhotosGridAdapter.Ph
 
     public void clear() {
         this.photosUrls.clear();
-        this.lastSavedPosition = 0;
+        this.savedPositions.clear();
+        StorageUtils.clearSavedPhotos(mContext);
     }
 
 

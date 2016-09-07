@@ -3,6 +3,7 @@
     package="com.photogallery.amrelmasry.simplephotogallery">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".common.PhotoGalleryApp"
         android:allowBackup="true"
@@ -17,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".features.slider.PhotoSliderActivity"></activity>
     </application>
 
 </manifest>

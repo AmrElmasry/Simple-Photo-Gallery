@@ -1,5 +1,6 @@
 package com.photogallery.amrelmasry.simplephotogallery.features.grid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import com.photogallery.amrelmasry.simplephotogallery.R;
 import com.photogallery.amrelmasry.simplephotogallery.common.PhotoGalleryApp;
 import com.photogallery.amrelmasry.simplephotogallery.common.utils.EndlessRecyclerViewScrollListener;
 import com.photogallery.amrelmasry.simplephotogallery.common.utils.ItemClickSupport;
+import com.photogallery.amrelmasry.simplephotogallery.features.slider.PhotoSliderActivity;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,9 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class PhotosGridActivity extends AppCompatActivity implements PhotosGridContract.View {
+
+    public static final String CURRENT_POSITION = "current_position";
+    public static final String PHOTOS_COUNT = "photos_count";
 
     @Inject
     PhotosGridContract.Presenter photosGridPresenter;
@@ -51,19 +56,22 @@ public class PhotosGridActivity extends AppCompatActivity implements PhotosGridC
         gridRecyclerView.setAdapter(photosGridAdapter);
 
         photosGridPresenter.attachView(this);
-        photosGridPresenter.downloadPhotos(4);
+        photosGridPresenter.downloadPhotos(8);
 
         ItemClickSupport.addTo(gridRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                // open new activity
+                Intent intent = new Intent(PhotosGridActivity.this, PhotoSliderActivity.class);
+                intent.putExtra(CURRENT_POSITION, position);
+                intent.putExtra(PHOTOS_COUNT, photosGridAdapter.getItemCount());
+                startActivity(intent);
             }
         });
 
         gridRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                photosGridPresenter.downloadPhotos(4);
+                photosGridPresenter.downloadPhotos(8);
                 Timber.d("Loading More...");
             }
         });

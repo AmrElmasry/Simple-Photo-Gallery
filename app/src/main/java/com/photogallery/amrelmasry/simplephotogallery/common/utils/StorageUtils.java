@@ -37,4 +37,16 @@ public class StorageUtils {
     }
 
 
+    public static void clearSavedPhotos(Context context) {
+        File f = new File(context.getFilesDir().getPath());
+        File[] files = f.listFiles();
+        for (File file : files) {
+            boolean deleted = file.delete();
+            if (deleted) {
+                Timber.d("photo " + file.getName() + " deleted successfully");
+            } else {
+                Timber.e("couldn't delete photo " + file.getName());
+            }
+        }
+    }
 }
