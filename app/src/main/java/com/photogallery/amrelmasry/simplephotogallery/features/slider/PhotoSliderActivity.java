@@ -21,12 +21,15 @@ public class PhotoSliderActivity extends AppCompatActivity {
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    private int mCurrentPosition;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_slider);
+
+        ButterKnife.bind(this);
 
         // Using Immersive Full-Screen Mode
         getWindow().getDecorView().setSystemUiVisibility(
@@ -37,26 +40,31 @@ public class PhotoSliderActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
-        ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        int currentPosition = intent.getIntExtra(PhotosGridActivity.CURRENT_POSITION, 0);
+        int selectedItemPosition = intent.getIntExtra(PhotosGridActivity.CURRENT_POSITION, 0);
         int photosCount = intent.getIntExtra(PhotosGridActivity.PHOTOS_COUNT, 0);
 
-        ArrayList<Bitmap> savedBitmaps = getSavedBitmaps(photosCount);
+        ArrayList<Bitmap> savedBitmaps = getSavedBitmaps(photosCount, selectedItemPosition);
         PhotoSliderAdapter photosGridAdapter = new PhotoSliderAdapter(this, savedBitmaps);
 
         viewPager.setAdapter(photosGridAdapter);
-        viewPager.setCurrentItem(currentPosition);
-        Timber.d("Open position" + currentPosition);
+        viewPager.setCurrentItem(mCurrentPosition);
+
+        Timber.d("Open position" + mCurrentPosition);
     }
 
-    private ArrayList<Bitmap> getSavedBitmaps(int photosCount) {
+    private ArrayList<Bitmap> getSavedBitmaps(int photosCount, int selectedItemPosition) {
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
         for (int i = 0; i < photosCount; i++) {
             Bitmap bitmap = StorageUtils.loadPhotoFromInternalStorage(this, String.valueOf(i));
             if (bitmap != null) {
                 bitmaps.add(bitmap);
+                // check if the selected bitmap position equals to the
+                // current loaded bitmap
+                if (selectedItemPosition == i) {
+                    mCurrentPosition = bitmaps.indexOf(bitmap);
+                }
             }
         }
         return bitmaps;

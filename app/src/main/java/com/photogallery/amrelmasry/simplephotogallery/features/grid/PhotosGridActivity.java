@@ -54,9 +54,10 @@ public class PhotosGridActivity extends AppCompatActivity implements PhotosGridC
 
         photosGridAdapter = new PhotosGridAdapter(new ArrayList<String>(), this);
         gridRecyclerView.setAdapter(photosGridAdapter);
+        gridRecyclerView.setHasFixedSize(true);
 
         photosGridPresenter.attachView(this);
-        photosGridPresenter.downloadPhotos(8);
+        photosGridPresenter.downloadPhotos(4);
 
         ItemClickSupport.addTo(gridRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -71,7 +72,7 @@ public class PhotosGridActivity extends AppCompatActivity implements PhotosGridC
         gridRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                photosGridPresenter.downloadPhotos(8);
+                photosGridPresenter.downloadPhotos(4);
                 Timber.d("Loading More...");
             }
         });
