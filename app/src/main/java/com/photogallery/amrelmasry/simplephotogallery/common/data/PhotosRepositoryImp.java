@@ -1,7 +1,6 @@
 package com.photogallery.amrelmasry.simplephotogallery.common.data;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,13 +15,14 @@ public class PhotosRepositoryImp implements PhotosRepository {
 
     private static final String BASE_URL = "http://lorempixel.com/";
 
+
     @Override
-    public List<String> getPhotosUrls(int count) {
-        List<String> photosUrls = new ArrayList<>();
+    public ArrayList<String> getPhotosUrls(int photosCount) {
+        ArrayList<String> photosUrls = new ArrayList<>();
         final int min = 300;
         final int max = 500;
         Random random = new Random();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < photosCount; i++) {
             int height = random.nextInt(max - min + 1) + min;
             int weight = random.nextInt(max - min + 1) + min;
             String url = String.format("%s/%s/%s/", BASE_URL, weight, height);

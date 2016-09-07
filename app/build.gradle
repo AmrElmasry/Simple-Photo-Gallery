@@ -25,6 +25,8 @@ ext {
     BUTTER_KNIFE_VERSION = '8.2.1'
     MOCKITO_VERSION = '1.10.19'
     AssertJ_ANDROID_VERSION = '1.1.1'
+    PICASSO_VERSION = '2.5.2'
+    SUPPORT_LIBRARY_VERSION = '24.2.0'
 }
 
 dependencies {
@@ -48,9 +50,21 @@ dependencies {
     testCompile "com.squareup.assertj:assertj-android:$AssertJ_ANDROID_VERSION", {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    testCompile 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.1@aar'
+
 
     // Mockito
     testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
 
+    // Picasso
+    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
 
+    // Robolectric
+    testCompile 'org.robolectric:robolectric:3.0'
+
+    // Timber
+    compile 'com.jakewharton.timber:timber:4.2.0'
+
+    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
 }

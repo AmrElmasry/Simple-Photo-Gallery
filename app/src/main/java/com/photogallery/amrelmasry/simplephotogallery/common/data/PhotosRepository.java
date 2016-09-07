@@ -1,8 +1,8 @@
 package com.photogallery.amrelmasry.simplephotogallery.common.data;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface PhotosRepository {
 
-    List<String> getPhotosUrls(int count);
+    ArrayList<String> getPhotosUrls(int count);
 }
