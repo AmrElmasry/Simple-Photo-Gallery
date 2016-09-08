@@ -5,7 +5,7 @@
     android:id="@+id/activity_full_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/slider_background_color"
     tools:context="com.photogallery.amrelmasry.simplephotogallery.features.slider.PhotoSliderActivity">
 
     <android.support.v4.view.ViewPager
