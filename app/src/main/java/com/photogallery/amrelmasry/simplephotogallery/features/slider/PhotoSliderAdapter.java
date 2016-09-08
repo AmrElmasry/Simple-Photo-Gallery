@@ -1,9 +1,7 @@
 package com.photogallery.amrelmasry.simplephotogallery.features.slider;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +11,16 @@ import android.widget.ImageView;
 
 import com.photogallery.amrelmasry.simplephotogallery.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoSliderAdapter extends PagerAdapter {
-    private Activity mActivity;
-    private ArrayList<Bitmap> photosBitmaps;
+    private List<Bitmap> photosBitmaps;
+    private LayoutInflater inflater;
 
-    public PhotoSliderAdapter(Activity activity,
-                              ArrayList<Bitmap> imagePaths) {
-        this.mActivity = activity;
+    public PhotoSliderAdapter(Context context,
+                              List<Bitmap> imagePaths) {
         this.photosBitmaps = imagePaths;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -37,29 +35,21 @@ public class PhotoSliderAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imgDisplay;
 
-        LayoutInflater inflater = (LayoutInflater) mActivity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewLayout = inflater.inflate(R.layout.slider_item, container,
-                false);
+        View itemView = inflater.inflate(R.layout.slider_item, container, false);
 
-        imgDisplay = (ImageView) viewLayout.findViewById(R.id.fullImageView);
+        ImageView photoImageView = (ImageView) itemView.findViewById(R.id.fullImageView);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = photosBitmaps.get(position);
-        imgDisplay.setImageBitmap(bitmap);
+        photoImageView.setImageBitmap(bitmap);
 
+        container.addView(itemView);
 
-        container.addView(viewLayout);
-
-        return viewLayout;
+        return itemView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((FrameLayout) object);
-
     }
 }
