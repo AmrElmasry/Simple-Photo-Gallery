@@ -20,7 +20,7 @@ public class PhotosRepositoryImp implements PhotosRepository {
     public ArrayList<String> getPhotosUrls(int photosCount) {
         ArrayList<String> photosUrls = new ArrayList<>();
         final int min = 300;
-        final int max = 500;
+        final int max = 1000;
         Random random = new Random();
         for (int i = 0; i < photosCount; i++) {
             int height = random.nextInt(max - min + 1) + min;
