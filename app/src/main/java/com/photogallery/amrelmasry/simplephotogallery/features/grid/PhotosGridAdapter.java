@@ -48,9 +48,11 @@ public class PhotosGridAdapter extends RecyclerView.Adapter<PhotosGridAdapter.Ph
         final Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                // TODO add fade animation
                 holder.progressBar.setVisibility(View.INVISIBLE);
+                // set the imageView with fade animation
+                holder.imageView.setAlpha(0f);
                 holder.imageView.setImageBitmap(bitmap);
+                holder.imageView.animate().alpha(1).setDuration(500).start();
 
                 // check if the image with current position has been saved before
                 if (!savedPositions.contains(holder.getAdapterPosition())) {
