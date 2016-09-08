@@ -16,7 +16,6 @@ import static org.assertj.android.recyclerview.v7.api.Assertions.assertThat;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-
 public class PhotosGridActivityTest {
 
     private PhotosGridActivity photosGridActivity;

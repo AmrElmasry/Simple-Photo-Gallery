@@ -1,8 +1,16 @@
 package com.photogallery.amrelmasry.simplephotogallery.common.mvpbase;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
+/**
+ * any Presenter must extends this class or implements {@link MvpPresenter}
+ */
 public class BasePresenter<T extends MvpView> implements MvpPresenter<T> {
 
     private T view;
+
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
 
     @Override
@@ -13,6 +21,7 @@ public class BasePresenter<T extends MvpView> implements MvpPresenter<T> {
     @Override
     public void detachView() {
         view = null;
+        compositeSubscription.clear();
     }
 
     public T getView() {
@@ -25,6 +34,9 @@ public class BasePresenter<T extends MvpView> implements MvpPresenter<T> {
         }
     }
 
+    public void addSubscription(Subscription subscription) {
+        this.compositeSubscription.add(subscription);
+    }
     public boolean isViewAttached() {
         return view != null;
     }

@@ -1,7 +1,6 @@
 package com.photogallery.amrelmasry.simplephotogallery.features.slider;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +9,26 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.photogallery.amrelmasry.simplephotogallery.R;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.io.File;
+import java.util.ArrayList;
 
 public class PhotoSliderAdapter extends PagerAdapter {
-    private List<Bitmap> photosBitmaps;
+    private ArrayList<String> photosPaths;
     private LayoutInflater inflater;
+    private Context mContext;
 
     public PhotoSliderAdapter(Context context,
-                              List<Bitmap> imagePaths) {
-        this.photosBitmaps = imagePaths;
+                              ArrayList<String> imagePaths) {
+        this.mContext = context;
+        this.photosPaths = imagePaths;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return this.photosBitmaps.size();
+        return this.photosPaths.size();
     }
 
     @Override
@@ -40,9 +43,9 @@ public class PhotoSliderAdapter extends PagerAdapter {
 
         ImageView photoImageView = (ImageView) itemView.findViewById(R.id.fullImageView);
 
-        Bitmap bitmap = photosBitmaps.get(position);
-        photoImageView.setImageBitmap(bitmap);
-
+        String photoPath = photosPaths.get(position);
+        File file = new File(photoPath);
+        Picasso.with(mContext).load(file).into(photoImageView);
         container.addView(itemView);
 
         return itemView;

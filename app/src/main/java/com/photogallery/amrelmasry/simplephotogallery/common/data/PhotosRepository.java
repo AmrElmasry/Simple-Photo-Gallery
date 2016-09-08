@@ -1,8 +1,9 @@
 package com.photogallery.amrelmasry.simplephotogallery.common.data;
 
-import java.util.ArrayList;
+import android.graphics.Bitmap;
+
+import rx.Observable;
 
 public interface PhotosRepository {
-
-    ArrayList<String> getPhotosUrls(int count);
+    Observable<Bitmap> getPhotos(int photosCount);
 }
